@@ -22,8 +22,7 @@ RUN for i in /bin /etc /opt /sbin /usr; do \
 WORKDIR /
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=C.UTF-8 LANGUAGE=en_US.UTF-8 \
-    TERM=xterm \
-    CDSW_DOCUMENTATION=https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_user_guide.html
+    TERM=xterm
 
 
 RUN apt-get update && apt-get dist-upgrade -y && \
@@ -33,12 +32,14 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   krb5-user \
   xz-utils \
   git \
+  git-lfs \
   ssh \
   unzip \
   gzip \
   curl \
   nano \
   emacs-nox \
+  wget \
   ca-certificates \
   zlib1g-dev \
   libbz2-dev \
@@ -47,6 +48,8 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   libsasl2-dev \
   libzmq3-dev \
   cpio \
+  cmake \
+  make \
   && \
   apt-get clean && \
   apt-get autoremove && \
@@ -78,49 +81,57 @@ RUN \
         libpq-dev \
         gcc \
         g++ \
+        libkrb5-dev \
     && \
     rm -rf /var/lib/apt/lists/*
 
-ENV PYTHON3_VERSION=3.7.13 \
+ENV PYTHON3_VERSION=3.7.16 \
     ML_RUNTIME_KERNEL="Python 3.7"
 
-ADD build/python-3.7.13-pkg.tar.gz /usr/local
+ADD build/python-3.7.16-pkg.tar.gz /usr/local
 
 COPY etc/sitecustomize.py /usr/local/lib/python3.7/site-packages/
 COPY etc/pip.conf /etc/pip.conf
-COPY requirements/python-standard-packages/requirements.txt /build/requirements.txt
+COPY requirements/python-standard-packages/requirements-3.7.txt /build/requirements.txt
 
 RUN \
     ldconfig && \
     pip3 config set install.user false && \
-    pip3 install --no-cache-dir --no-warn-script-location -r requirements.txt && \
+    SETUPTOOLS_USE_DISTUTILS=stdlib pip3 install \
+        --no-cache-dir \
+        --no-warn-script-location \
+        -r requirements.txt && \
     rm -rf /build
 
 
 ENV ML_RUNTIME_EDITOR="PBJ Workbench" \
     ML_RUNTIME_EDITION="Standard" \
-    ML_RUNTIME_JUPYTER_KERNEL_GATEWAY_CMD="jupyter kernelgateway --config=/home/cdsw/.jupyter/jupyter_kernel_gateway_config.py --debug" \
+    ML_RUNTIME_JUPYTER_KERNEL_GATEWAY_CMD="jupyter kernelgateway --config=/home/cdsw/.jupyter/jupyter_kernel_gateway_config.py" \
     JUPYTERLAB_WORKSPACES_DIR=/tmp
 
-COPY requirements/pbj-workbench-base/requirements.txt /build/requirements.txt
+COPY requirements/pbj-workbench-base/requirements-3.7.txt /build/requirements.txt
 
 COPY etc/cloudera.mplstyle /etc/cloudera.mplstyle
 
 RUN \
-    pip3 install --no-cache-dir --no-warn-script-location -r /build/requirements.txt && \
+    SETUPTOOLS_USE_DISTUTILS=stdlib pip3 install \
+        --no-cache-dir \
+        --no-warn-script-location \
+        -r /build/requirements.txt && \
     rm -rf /build
 
 ENV ML_RUNTIME_JUPYTER_KERNEL_NAME="python3" \
     ML_RUNTIME_DESCRIPTION="PBJ Workbench Python runtime provided by Cloudera"
 
 
+
 ENV \
-    ML_RUNTIME_METADATA_VERSION=2 \
-    ML_RUNTIME_FULL_VERSION=2022.11.1-b2 \
-    ML_RUNTIME_SHORT_VERSION=2022.11 \
-    ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=ed3cc448ca7255c2b46d0a84d9a571ed2021fcd6 \
-    ML_RUNTIME_GBN=37719343
+    ML_RUNTIME_METADATA_VERSION=2 \ 
+    ML_RUNTIME_FULL_VERSION=2023.05.2-b7 \
+    ML_RUNTIME_SHORT_VERSION=2023.05 \
+    ML_RUNTIME_MAINTENANCE_VERSION=2 \
+    ML_RUNTIME_GIT_HASH=8838aaf8fc83a8c6a888dcae29f12d416adc648e \
+    ML_RUNTIME_GBN=41680679
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \

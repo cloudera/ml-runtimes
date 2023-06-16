@@ -52,3 +52,11 @@ libpcre3-dev
 # build dependency so flextable can be installed and used in CML
 libfontconfig1-dev
 libcairo2-dev
+
+# build dependencies to support newer versions of the R package "devtools"
+libharfbuzz-dev
+libfribidi-dev
+libfreetype6-dev
+libpng-dev
+libtiff5-dev
+libjpeg-dev
