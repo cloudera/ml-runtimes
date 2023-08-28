@@ -31,6 +31,9 @@ make
 unzip
 zip
 zlib1g
+# dependency to R's odbc package
+unixodbc
+unixodbc-dev
 
 # The following packages are build dependencies of R packages that we
 # want users to be able to install

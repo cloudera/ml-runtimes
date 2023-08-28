@@ -1,4 +1,4 @@
-# Copyright 2022 Cloudera. All Rights Reserved.
+# Copyright 2023 Cloudera. All Rights Reserved.
 FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04
 RUN apt-key del 7fa2af80 && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub
 
@@ -48,6 +48,8 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   liblzma-dev \
   libssl-dev \
   libsasl2-dev \
+  libsasl2-2 \
+  libsasl2-modules-gssapi-mit \
   libzmq3-dev \
   cpio \
   cmake \
@@ -134,11 +136,11 @@ ENV ML_RUNTIME_EDITION="Nvidia GPU" \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2023.05.2-b7 \
-    ML_RUNTIME_SHORT_VERSION=2023.05 \
-    ML_RUNTIME_MAINTENANCE_VERSION=2 \
-    ML_RUNTIME_GIT_HASH=8838aaf8fc83a8c6a888dcae29f12d416adc648e \
-    ML_RUNTIME_GBN=41680679
+    ML_RUNTIME_FULL_VERSION=2023.08.1-b6 \
+    ML_RUNTIME_SHORT_VERSION=2023.08 \
+    ML_RUNTIME_MAINTENANCE_VERSION=1 \
+    ML_RUNTIME_GIT_HASH=ebb24289c26df668ef4e3847df64b6c15d9c4963 \
+    ML_RUNTIME_GBN=44463656
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
