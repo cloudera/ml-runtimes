@@ -34,7 +34,6 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   krb5-user \
   xz-utils \
   git \
-  git-lfs \
   ssh \
   unzip \
   gzip \
@@ -59,6 +58,13 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   apt-get autoremove && \
   rm -rf /var/lib/apt/lists/* && \
   echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
+
+
+RUN wget https://packagecloud.io/github/git-lfs/packages/ubuntu/focal/git-lfs_3.4.0_amd64.deb/download.deb?distro_version_id=210 -O git-lfs.deb && \
+  echo "e9f3a18dca4bf8f0e609d1e607eaac98ee6f7f38ac5e4f9c552f7b3c8834aa3bd0f923fb62aa3015e3920d1aa03dc5fa55fcd872d8ac740d5a7df565aa57b14f  git-lfs.deb" | sha512sum -c - && \
+  dpkg -i git-lfs.deb && \
+  rm git-lfs.deb
+
 
 RUN rm -f /etc/krb5.conf
 
@@ -89,10 +95,10 @@ RUN \
     && \
     rm -rf /var/lib/apt/lists/*
 
-ENV PYTHON3_VERSION=3.10.9 \
+ENV PYTHON3_VERSION=3.10.13 \
     ML_RUNTIME_KERNEL="Python 3.10"
 
-ADD build/python-3.10.9-pkg.tar.gz /usr/local
+ADD build/python-3.10.13-pkg.tar.gz /usr/local
 
 COPY etc/sitecustomize.py /usr/local/lib/python3.10/site-packages/
 COPY etc/pip.conf /etc/pip.conf
@@ -136,11 +142,11 @@ ENV ML_RUNTIME_EDITION="Nvidia GPU" \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2023.08.2-b8 \
-    ML_RUNTIME_SHORT_VERSION=2023.08 \
-    ML_RUNTIME_MAINTENANCE_VERSION=2 \
-    ML_RUNTIME_GIT_HASH=cdee6e30026323b76feda974d3b6fba48bee5688 \
-    ML_RUNTIME_GBN=45253874
+    ML_RUNTIME_FULL_VERSION=2023.12.1-b8 \
+    ML_RUNTIME_SHORT_VERSION=2023.12 \
+    ML_RUNTIME_MAINTENANCE_VERSION=1 \
+    ML_RUNTIME_GIT_HASH=d69b483e33f292bfd10fcebcd5dee0ea51cb1109 \
+    ML_RUNTIME_GBN=48209093
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
