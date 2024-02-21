@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera. All Rights Reserved.
+# Copyright 2024 Cloudera. All Rights Reserved.
 FROM ubuntu:20.04
 
 RUN \
@@ -51,15 +51,20 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   cpio \
   cmake \
   make \
+  libgl-dev \
+  libjpeg-dev \
+  libpng-dev \
+  ffmpeg \
   && \
   apt-get clean && \
   apt-get autoremove && \
   rm -rf /var/lib/apt/lists/* && \
+  rm -f /etc/ssh/ssh_host_ecdsa_key /etc/ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_rsa_key && \
   echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
 
-RUN wget https://packagecloud.io/github/git-lfs/packages/ubuntu/focal/git-lfs_3.4.0_amd64.deb/download.deb?distro_version_id=210 -O git-lfs.deb && \
-  echo "e9f3a18dca4bf8f0e609d1e607eaac98ee6f7f38ac5e4f9c552f7b3c8834aa3bd0f923fb62aa3015e3920d1aa03dc5fa55fcd872d8ac740d5a7df565aa57b14f  git-lfs.deb" | sha512sum -c - && \
+RUN wget https://packagecloud.io/github/git-lfs/packages/ubuntu/focal/git-lfs_3.4.1_amd64.deb/download.deb?distro_version_id=210 -O git-lfs.deb && \
+  echo "7f4b65f2cc61fc2741641003784ea605727b629a4d28a8ec7a3052068122dcc6a8c41a45a4df8e34f94fe8bc143c6c8754c03824ad8358b70083c66a1a7187a4  git-lfs.deb" | sha512sum -c - && \
   dpkg -i git-lfs.deb && \
   rm git-lfs.deb
 
@@ -98,7 +103,6 @@ ENV PYTHON3_VERSION=3.7.16 \
 
 ADD build/python-3.7.16-pkg.tar.gz /usr/local
 
-COPY etc/sitecustomize.py /usr/local/lib/python3.7/site-packages/
 COPY etc/pip.conf /etc/pip.conf
 COPY requirements/python-standard-packages/requirements-3.7.txt /build/requirements.txt
 
@@ -135,11 +139,11 @@ ENV ML_RUNTIME_JUPYTER_KERNEL_NAME="python3" \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2023.12.1-b8 \
-    ML_RUNTIME_SHORT_VERSION=2023.12 \
+    ML_RUNTIME_FULL_VERSION=2024.02.1-b4 \
+    ML_RUNTIME_SHORT_VERSION=2024.02 \
     ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=d69b483e33f292bfd10fcebcd5dee0ea51cb1109 \
-    ML_RUNTIME_GBN=48209093
+    ML_RUNTIME_GIT_HASH=522971789d992f2c6fbbb5f8a63301b9a21cbe3e \
+    ML_RUNTIME_GBN=50300524
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
