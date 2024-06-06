@@ -1,7 +1,6 @@
 # Copyright 2024 Cloudera. All Rights Reserved.
-FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04
+FROM nvidia/cuda:12.3.2-cudnn9-devel-ubuntu20.04
 RUN apt-key del 7fa2af80 && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub
-
 
 RUN \
   addgroup --gid 8536 cdsw && \
@@ -25,7 +24,6 @@ WORKDIR /
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=C.UTF-8 LANGUAGE=en_US.UTF-8 \
     TERM=xterm
-
 
 RUN apt-get update && apt-get dist-upgrade -y && \
   apt-get update && apt-get install -y --no-install-recommends \
@@ -57,7 +55,8 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   libjpeg-dev \
   libpng-dev \
   ffmpeg \
-  && \
+  fonts-roboto \
+  fonts-dejavu && \
   apt-get clean && \
   apt-get autoremove && \
   rm -rf /var/lib/apt/lists/* && \
@@ -65,8 +64,8 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
 
-RUN wget https://packagecloud.io/github/git-lfs/packages/ubuntu/focal/git-lfs_3.4.1_amd64.deb/download.deb?distro_version_id=210 -O git-lfs.deb && \
-  echo "7f4b65f2cc61fc2741641003784ea605727b629a4d28a8ec7a3052068122dcc6a8c41a45a4df8e34f94fe8bc143c6c8754c03824ad8358b70083c66a1a7187a4  git-lfs.deb" | sha512sum -c - && \
+RUN wget https://packagecloud.io/github/git-lfs/packages/ubuntu/focal/git-lfs_3.5.1_amd64.deb/download.deb?distro_version_id=210 -O git-lfs.deb && \
+  echo "9eb957a155c088bfe68f4fcf051896d8321c5bc255f3dadea8f42ad8903bf22ef1803583f175a5d55fe68d359779ed1b566e7a86c77d91c272196ee50cc913fc  git-lfs.deb" | sha512sum -c - && \
   dpkg -i git-lfs.deb && \
   rm git-lfs.deb
 
@@ -83,7 +82,6 @@ ENV PATH /home/cdsw/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
 ENV SHELL /bin/bash
 
 ENV HADOOP_ROOT_LOGGER WARN,console
-
 
 
 WORKDIR /build
@@ -103,7 +101,7 @@ RUN \
 ENV PYTHON3_VERSION=3.9.18 \
     ML_RUNTIME_KERNEL="Python 3.9"
 
-ADD build/python-3.9.18-pkg.tar.gz /usr/local
+ADD build/python-prebuilt-3.9.18-20240115-pkg.tar.gz /usr/local
 
 COPY etc/pip.conf /etc/pip.conf
 COPY requirements/python-standard-packages/requirements-3.9.txt /build/requirements.txt
@@ -116,7 +114,6 @@ RUN \
         --no-warn-script-location \
         -r requirements.txt && \
     rm -rf /build
-
 
 ENV ML_RUNTIME_EDITOR="PBJ Workbench" \
     ML_RUNTIME_EDITION="Standard" \
@@ -133,24 +130,22 @@ RUN \
         --no-warn-script-location \
         -r /build/requirements.txt && \
     rm -rf /build
-
 ENV ML_RUNTIME_JUPYTER_KERNEL_NAME="python3" \
     ML_RUNTIME_DESCRIPTION="PBJ Workbench Python runtime provided by Cloudera"
-
 ENV ML_RUNTIME_EDITION="Nvidia GPU" \
     ML_RUNTIME_DESCRIPTION="Python runtime with CUDA libraries provided by Cloudera" \
-    ML_RUNTIME_CUDA_VERSION="11.8.0"
+    ML_RUNTIME_CUDA_VERSION="12.3.2"
 
 
 
 
 ENV \
-    ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2024.02.1-b4 \
-    ML_RUNTIME_SHORT_VERSION=2024.02 \
+    ML_RUNTIME_METADATA_VERSION=2 \
+    ML_RUNTIME_FULL_VERSION=2024.05.1-b8 \
+    ML_RUNTIME_SHORT_VERSION=2024.05 \
     ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=522971789d992f2c6fbbb5f8a63301b9a21cbe3e \
-    ML_RUNTIME_GBN=50300524
+    ML_RUNTIME_GIT_HASH=2c1a394c4d684e645e347bdfa070c6422b531f21 \
+    ML_RUNTIME_GBN=53955959
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
@@ -164,3 +159,5 @@ LABEL \
     com.cloudera.ml.runtime.git-hash=$ML_RUNTIME_GIT_HASH \
     com.cloudera.ml.runtime.gbn=$ML_RUNTIME_GBN \
     com.cloudera.ml.runtime.cuda-version=$ML_RUNTIME_CUDA_VERSION
+
+WORKDIR /home/cdsw

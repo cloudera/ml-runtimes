@@ -11,7 +11,7 @@ figure.figsize      : 6,4      # figure size in inches
 font.cursive        : URW Chancery L
 font.family         : sans-serif
 font.fantasy        : Dingbats
-font.monospace      : Roboto, DejaVu Sans Mono, Nimbus Mono L
+font.monospace      : DejaVu Sans Mono, Nimbus Mono L
 font.sans-serif     : Roboto, DejaVu Sans, Nimbus Sans L, URW Gothic
 font.serif          : DejaVu Serif, Century Schoolbook L, URW Bookman, Nimbus Roman No9 L, URW Palladio
 font.size           : 9.0
