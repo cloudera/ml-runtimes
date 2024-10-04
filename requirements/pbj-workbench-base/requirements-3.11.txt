@@ -342,9 +342,9 @@ jupyter-kernel-gateway==2.5.2 \
     --hash=sha256:0a9d1a9cd70f1c59fd2a1e5e843d11f81b05c0e05cc08c01e28416c67472e3db \
     --hash=sha256:3d93f05a06e7fb2112255ff45596cce48963b8eaf309efa2e79a6ad0d96a7f06
     # via -r runtime/engine/requirements/pbj-workbench-base/requirements-3.11.in
-jupyter-server==2.10.1 \
-    --hash=sha256:20519e355d951fc5e1b6ac5952854fe7620d0cfb56588fa4efe362a758977ed3 \
-    --hash=sha256:e6da2657a954a7879eed28cc08e0817b01ffd81d7eab8634660397b55f926472
+jupyter-server==2.11.2 \
+    --hash=sha256:0c548151b54bcb516ca466ec628f7f021545be137d01b5467877e87f6fff4374 \
+    --hash=sha256:0c99f9367b0f24141e527544522430176613f9249849be80504c6d2b955004bb
     # via
     #   nbclassic
     #   notebook-shim
