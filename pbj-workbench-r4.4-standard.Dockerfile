@@ -133,8 +133,7 @@ COPY requirements/pbj-workbench-base/requirements-3.8.txt /build/requirements.tx
 
 COPY etc/cloudera.mplstyle /etc/cloudera.mplstyle
 
-RUN \
-    SETUPTOOLS_USE_DISTUTILS=stdlib pip3 install \
+RUN pip3 install \
         --no-cache-dir \
         --no-warn-script-location \
         -r /build/requirements.txt && \
@@ -150,11 +149,11 @@ RUN \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2024.05.2-b14 \
-    ML_RUNTIME_SHORT_VERSION=2024.05 \
-    ML_RUNTIME_MAINTENANCE_VERSION=2 \
-    ML_RUNTIME_GIT_HASH=2c0ed63fd921dbfb634a613d41de884fcff6f5a1 \
-    ML_RUNTIME_GBN=58194162
+    ML_RUNTIME_FULL_VERSION=2024.10.1-b12 \
+    ML_RUNTIME_SHORT_VERSION=2024.10 \
+    ML_RUNTIME_MAINTENANCE_VERSION=1 \
+    ML_RUNTIME_GIT_HASH=4df8dd6a570d064ae82eb85bf11e83af604ea575 \
+    ML_RUNTIME_GBN=59080887
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \

@@ -98,10 +98,10 @@ RUN \
     && \
     rm -rf /var/lib/apt/lists/*
 
-ENV PYTHON3_VERSION=3.7.16 \
+ENV PYTHON3_VERSION=3.7.17 \
     ML_RUNTIME_KERNEL="Python 3.7"
 
-ADD build/python-prebuilt-3.7.16-20240115-pkg.tar.gz /usr/local
+ADD build/python-prebuilt-3.7.17-20240911-pkg.tar.gz /usr/local
 
 COPY etc/pip.conf /etc/pip.conf
 COPY requirements/python-standard-packages/requirements-3.7.txt /build/requirements.txt
@@ -109,7 +109,7 @@ COPY requirements/python-standard-packages/requirements-3.7.txt /build/requireme
 RUN \
     ldconfig && \
     pip3 config set install.user false && \
-    SETUPTOOLS_USE_DISTUTILS=stdlib pip3 install \
+    pip3 install \
         --no-cache-dir \
         --no-warn-script-location \
         -r requirements.txt && \
@@ -124,8 +124,7 @@ COPY requirements/pbj-workbench-base/requirements-3.7.txt /build/requirements.tx
 
 COPY etc/cloudera.mplstyle /etc/cloudera.mplstyle
 
-RUN \
-    SETUPTOOLS_USE_DISTUTILS=stdlib pip3 install \
+RUN pip3 install \
         --no-cache-dir \
         --no-warn-script-location \
         -r /build/requirements.txt && \
@@ -141,11 +140,11 @@ ENV ML_RUNTIME_EDITION="Nvidia GPU" \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2024.05.2-b14 \
-    ML_RUNTIME_SHORT_VERSION=2024.05 \
-    ML_RUNTIME_MAINTENANCE_VERSION=2 \
-    ML_RUNTIME_GIT_HASH=2c0ed63fd921dbfb634a613d41de884fcff6f5a1 \
-    ML_RUNTIME_GBN=58194162
+    ML_RUNTIME_FULL_VERSION=2024.10.1-b12 \
+    ML_RUNTIME_SHORT_VERSION=2024.10 \
+    ML_RUNTIME_MAINTENANCE_VERSION=1 \
+    ML_RUNTIME_GIT_HASH=4df8dd6a570d064ae82eb85bf11e83af604ea575 \
+    ML_RUNTIME_GBN=59080887
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
