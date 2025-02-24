@@ -1,45 +1,31 @@
-# Copyright 2024 Cloudera. All Rights Reserved.
-FROM nvidia/cuda:12.3.2-cudnn9-devel-ubuntu20.04
-RUN apt-key del 7fa2af80 && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub
-
-RUN \
-  addgroup --gid 8536 cdsw && \
-  adduser --disabled-password --gecos "CDSW User" --uid 8536 --gid 8536 cdsw
-
-
-RUN for i in /etc /etc/alternatives; do \
-  if [ -d ${i} ]; then chmod 777 ${i}; fi; \
-  done
-
-RUN chown cdsw /
-
-RUN for i in /bin /etc /opt /sbin /usr; do \
-  if [ -d ${i} ]; then \
-    chown cdsw ${i}; \
-    find ${i} -type d -exec chown cdsw {} +; \
-  fi; \
-  done
-
-WORKDIR /
+# Copyright 2025 Cloudera. All Rights Reserved.
+FROM nvidia/cuda:12.5.1-devel-ubuntu24.04
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=C.UTF-8 LANGUAGE=en_US.UTF-8 \
-    TERM=xterm
-
+    TERM=xterm \
+    PATH=/home/cdsw/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin \
+    SHELL=/bin/bash \
+    HADOOP_ROOT_LOGGER=WARN,console
+    
 RUN apt-get update && apt-get dist-upgrade -y && \
-  apt-get update && apt-get install -y --no-install-recommends \
+  apt-get install -y --no-install-recommends \
   locales \
+  gpg \
   apt-transport-https \
   krb5-user \
   xz-utils \
   git \
+  git-lfs \
   ssh \
+  zip \
   unzip \
   gzip \
   curl \
   nano \
   emacs-nox \
   wget \
-  ca-certificates \
+  less \
+  ca-certificates ca-certificates-java \
   zlib1g-dev \
   libbz2-dev \
   liblzma-dev \
@@ -50,7 +36,8 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   libzmq3-dev \
   cpio \
   cmake \
-  make \
+  build-essential \
+  patch autoconf automake \
   libgl-dev \
   libjpeg-dev \
   libpng-dev \
@@ -58,62 +45,55 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   fonts-roboto \
   fonts-dejavu && \
   apt-get clean && \
-  apt-get autoremove && \
+  apt-get autoremove --purge && \
   rm -rf /var/lib/apt/lists/* && \
   rm -f /etc/ssh/ssh_host_ecdsa_key /etc/ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_rsa_key && \
-  echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
+  echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && \
+  addgroup --gid 8536 cdsw && \
+  adduser --disabled-password --comment "CDSW User" --uid 8536 --gid 8536 cdsw && \
+  for i in /etc /etc/alternatives; do \
+    if [ -d ${i} ]; then chmod 777 ${i}; fi; \
+  done && \
+  chown cdsw / && \
+  for i in /bin /etc /opt /sbin /usr; do \
+    if [ -d ${i} ]; then \
+      find ${i} -type d -exec chown cdsw {} +; \
+    fi; \
+  done && \
+  ln -s /usr/lib/x86_64-linux-gnu/libsasl2.so.2 /usr/lib/x86_64-linux-gnu/libsasl2.so.3 && \
+  mkdir -p /etc/pki/tls/certs && \
+  ln -s /etc/ssl/certs/ca-certificates.crt /etc/pki/tls/certs/ca-bundle.crt
 
-
-RUN wget https://packagecloud.io/github/git-lfs/packages/ubuntu/focal/git-lfs_3.5.1_amd64.deb/download.deb?distro_version_id=210 -O git-lfs.deb && \
-  echo "9eb957a155c088bfe68f4fcf051896d8321c5bc255f3dadea8f42ad8903bf22ef1803583f175a5d55fe68d359779ed1b566e7a86c77d91c272196ee50cc913fc  git-lfs.deb" | sha512sum -c - && \
-  dpkg -i git-lfs.deb && \
-  rm git-lfs.deb
-
-
-RUN rm -f /etc/krb5.conf
-
-RUN mkdir -p /etc/pki/tls/certs
-RUN ln -s /etc/ssl/certs/ca-certificates.crt /etc/pki/tls/certs/ca-bundle.crt
-
-RUN ln -s /usr/lib/x86_64-linux-gnu/libsasl2.so.2 /usr/lib/x86_64-linux-gnu/libsasl2.so.3
-
-ENV PATH /home/cdsw/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
-
-ENV SHELL /bin/bash
-
-ENV HADOOP_ROOT_LOGGER WARN,console
 
 
 WORKDIR /build
 
+ENV PYTHON3_VERSION=3.10.16 \
+    ML_RUNTIME_KERNEL="Python 3.10"
+
 RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-        libsqlite3-0 \
-        mime-support \
-        libpq-dev \
-        gcc \
-        g++ \
-        libkrb5-dev \
-    && \
-    rm -rf /var/lib/apt/lists/*
-
-ENV PYTHON3_VERSION=3.10.14 \
-    ML_RUNTIME_KERNEL="Python 3.10"
-
-ADD build/python-prebuilt-3.10.14-20240911-pkg.tar.gz /usr/local
+    libsqlite3-0 \
+    media-types \
+    libpq-dev \
+    libkrb5-dev && \
+    apt-get autoremove -y --purge && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY etc/pip.conf /etc/pip.conf
+
+ADD build/python-prebuilt-3.10.16-20241205-pkg.tar.gz /usr/local
 COPY requirements/python-standard-packages/requirements-3.10.txt /build/requirements.txt
 
 RUN \
     ldconfig && \
     pip3 config set install.user false && \
-    pip3 install \
-        --no-cache-dir \
-        --no-warn-script-location \
-        -r requirements.txt && \
-    rm -rf /build
+    pip3 install --no-cache-dir --no-warn-script-location -r requirements.txt && \
+    rm -rf /build && \
+    cd /root && \
+    rm -rf .cache .ipython .ivy2 .sbt .npm .yarn && \
+    rm -rf /tmp/*
 
 ENV ML_RUNTIME_EDITOR="PBJ Workbench" \
     ML_RUNTIME_EDITION="Standard" \
@@ -124,27 +104,32 @@ COPY requirements/pbj-workbench-base/requirements-3.10.txt /build/requirements.t
 
 COPY etc/cloudera.mplstyle /etc/cloudera.mplstyle
 
-RUN pip3 install \
-        --no-cache-dir \
-        --no-warn-script-location \
-        -r /build/requirements.txt && \
+RUN pip3 install --no-cache-dir --no-warn-script-location -r /build/requirements.txt && \
     rm -rf /build
+
 ENV ML_RUNTIME_JUPYTER_KERNEL_NAME="python3" \
     ML_RUNTIME_DESCRIPTION="PBJ Workbench Python runtime provided by Cloudera"
+    
+RUN \
+  cd /root && \
+  rm -rf .cache .ipython .ivy2 .sbt .npm .yarn && \
+  apt-get autoremove -y --purge && \
+  apt-get clean && rm -rf /var/lib/apt/lists/* && \
+  rm -rf /tmp/*
+
 ENV ML_RUNTIME_EDITION="Nvidia GPU" \
     ML_RUNTIME_DESCRIPTION="Python runtime with CUDA libraries provided by Cloudera" \
-    ML_RUNTIME_CUDA_VERSION="12.3.2"
-
+    ML_RUNTIME_CUDA_VERSION="12.5.1"
 
 
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2024.10.1-b12 \
-    ML_RUNTIME_SHORT_VERSION=2024.10 \
+    ML_RUNTIME_FULL_VERSION=2025.01.1-b8 \
+    ML_RUNTIME_SHORT_VERSION=2025.01 \
     ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=4df8dd6a570d064ae82eb85bf11e83af604ea575 \
-    ML_RUNTIME_GBN=59080887
+    ML_RUNTIME_GIT_HASH=604a5dc926b91f8b943b459e5f91ca9a9b45940d \
+    ML_RUNTIME_GBN=61850987
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
