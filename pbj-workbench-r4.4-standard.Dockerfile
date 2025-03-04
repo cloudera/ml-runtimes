@@ -103,7 +103,7 @@ ENV ML_RUNTIME_KERNEL="R 4.4" \
 COPY build-utils/r/r-runtime-dependencies.txt /build/
 COPY r/python*.deb /tmp/
 
-ADD build/r-prebuilt-4.4.0-20241113-pkg.tar.gz /usr/local
+ADD build/r-prebuilt-4.4.0-20250220-pkg.tar.gz /usr/local
 
 RUN \
     dpkg -i /tmp/python*.deb && \
@@ -153,13 +153,14 @@ RUN \
 
 
 
+
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2025.01.1-b8 \
+    ML_RUNTIME_FULL_VERSION=2025.01.2-b15 \
     ML_RUNTIME_SHORT_VERSION=2025.01 \
-    ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=604a5dc926b91f8b943b459e5f91ca9a9b45940d \
-    ML_RUNTIME_GBN=61850987
+    ML_RUNTIME_MAINTENANCE_VERSION=2 \
+    ML_RUNTIME_GIT_HASH=fb1e31ce5d426a950deb2d19e56f4a82e12ef5b4 \
+    ML_RUNTIME_GBN=63562531
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \

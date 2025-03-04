@@ -3,7 +3,7 @@ import os
 import os.path
 
 # Default value to pass, if we cannot find any default copilot embedding models.
-DEFAULT_COPILOT_EMBEDDING_MODEL = ":"
+DEFAULT_COPILOT_EMBEDDING_MODEL = "None"
 
 copilot_embedding_config_dir = os.getenv("COPILOT_EMBEDDING_CONFIG_DIR") or ""
 if copilot_embedding_config_dir == "" or not os.path.isfile(copilot_embedding_config_dir):

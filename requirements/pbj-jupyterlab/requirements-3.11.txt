@@ -362,8 +362,8 @@ click==8.1.7 \
     #   dask
     #   distributed
     #   jupyter-ai-magics
-cloudera-ai-inference-package @ https://github.com/cloudera/copilot/archive/f9926c04379dc3f3430fe1ee87272545071e595e.zip#subdirectory=packages/cloudera-ai-inference-package \
-    --hash=sha256:d2c726970528db57fe65d129bc64b99f71117d67cf6859057b8fa109343494e2
+cloudera-ai-inference-package @ https://github.com/cloudera/copilot/archive/8b8dfbd29a812f045e8bbaba9bfa4e1266dd3b7a.zip#subdirectory=packages/cloudera-ai-inference-package \
+    --hash=sha256:be70d724ba87ffe988350b8c5c49a5398f804f0dd09bae52967b69b8c5312bac
     # via -r runtime/engine/requirements/pbj-jupyterlab/requirements-3.11.in
 cloudpickle==3.1.0 \
     --hash=sha256:81a929b6e3c7335c863c771d673d105f02efdb89dfaba0c90495d1c64796601b \
@@ -741,9 +741,9 @@ jedi-language-server==0.41.2 \
     --hash=sha256:865a93546b3711713eaca1a76b3a5d4aaacd4594c87f777aa8d54da37ae5aeca \
     --hash=sha256:bfa112d88c0bd21872522b96c64e8054854f767449bbb3d858be04fb2cda0606
     # via -r runtime/engine/requirements/pbj-jupyterlab/requirements-3.11.in
-jinja2==3.1.4 \
-    --hash=sha256:4a3aee7acbbe7303aede8e9648d13b8bf88a429282aa6122a993f0ac800cb369 \
-    --hash=sha256:bc5dd2abb727a5319567b7a813e6a2e7318c39f4f487cfe6c89c6f9c7d25197d
+jinja2==3.1.5 \
+    --hash=sha256:8fefff8dc3034e27bb80d67c671eb8a9bc424c0ef4c0826edbff304cceff43bb \
+    --hash=sha256:aba0f4dc9ed8013c424088f68a5c226f7d6097ed89b246d7749c2ec4175c6adb
     # via
     #   -c /engine/runtime/engine/requirements/pbj-workbench-base/requirements-3.11.txt
     #   distributed
@@ -792,11 +792,11 @@ jsonschema-specifications==2024.10.1 \
     # via
     #   -c /engine/runtime/engine/requirements/pbj-workbench-base/requirements-3.11.txt
     #   jsonschema
-jupyter-ai @ https://github.com/cloudera/copilot/archive/f9926c04379dc3f3430fe1ee87272545071e595e.zip#subdirectory=packages/jupyter-ai \
-    --hash=sha256:d2c726970528db57fe65d129bc64b99f71117d67cf6859057b8fa109343494e2
+jupyter-ai @ https://github.com/cloudera/copilot/archive/8b8dfbd29a812f045e8bbaba9bfa4e1266dd3b7a.zip#subdirectory=packages/jupyter-ai \
+    --hash=sha256:be70d724ba87ffe988350b8c5c49a5398f804f0dd09bae52967b69b8c5312bac
     # via -r runtime/engine/requirements/pbj-jupyterlab/requirements-3.11.in
-jupyter-ai-magics @ https://github.com/cloudera/copilot/archive/f9926c04379dc3f3430fe1ee87272545071e595e.zip#subdirectory=packages/jupyter-ai-magics \
-    --hash=sha256:d2c726970528db57fe65d129bc64b99f71117d67cf6859057b8fa109343494e2
+jupyter-ai-magics @ https://github.com/cloudera/copilot/archive/8b8dfbd29a812f045e8bbaba9bfa4e1266dd3b7a.zip#subdirectory=packages/jupyter-ai-magics \
+    --hash=sha256:be70d724ba87ffe988350b8c5c49a5398f804f0dd09bae52967b69b8c5312bac
     # via
     #   -r runtime/engine/requirements/pbj-jupyterlab/requirements-3.11.in
     #   jupyter-ai

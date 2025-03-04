@@ -3,7 +3,7 @@ import os
 import os.path
 
 # Default value to pass, if we cannot find any default copilot models.
-DEFAULT_COPILOT_MODEL = ":"
+DEFAULT_COPILOT_MODEL = "None"
 
 # For GA, move this logic to Engine Init: https://jira.cloudera.com/browse/DSE-36732
 copilot_config_dir = os.getenv("COPILOT_CONFIG_DIR") or ""
