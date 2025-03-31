@@ -451,9 +451,9 @@ idna==3.7 \
     --hash=sha256:028ff3aadf0609c1fd278d8ea3089299412a7a8b9bd005dd08b9f8285bcb5cfc \
     --hash=sha256:82fee1fc78add43492d3a1898bfa6d8a904cc97d8427f683ed8e798d07761aa0
     # via requests
-impyla==0.18.0 \
-    --hash=sha256:3c80dc32d0fd0b7311995d5903844ff32745647b9345e54c92e80d47df163e13 \
-    --hash=sha256:d5e301de056d9e53caa75ba0a6e5108b6078d87d10052824d2eb7a37bdcc52a4
+impyla==0.21.0 \
+    --hash=sha256:5368f726fab3a609f2803b4963cc52bc2a0002f9243751852f90ee241dd64f60 \
+    --hash=sha256:55d8c14454d9f18452ea9b4b0e81dca04d9fa0b9a9759b99bed9d6197d1f8292
     # via -r runtime/engine/requirements/python-standard-packages/requirements-3.12.in
 jmespath==1.0.1 \
     --hash=sha256:02e2e4cc71b5bcab88332eebf907519190dd9e6e82107fa7f83b1003a6252980 \

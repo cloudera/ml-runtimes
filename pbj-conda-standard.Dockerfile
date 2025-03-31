@@ -183,11 +183,11 @@ RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2025.01.2-b15 \
+    ML_RUNTIME_FULL_VERSION=2025.01.3-b8 \
     ML_RUNTIME_SHORT_VERSION=2025.01 \
-    ML_RUNTIME_MAINTENANCE_VERSION=2 \
-    ML_RUNTIME_GIT_HASH=fb1e31ce5d426a950deb2d19e56f4a82e12ef5b4 \
-    ML_RUNTIME_GBN=63562531
+    ML_RUNTIME_MAINTENANCE_VERSION=3 \
+    ML_RUNTIME_GIT_HASH=25ac39f9f3d2cc7da6435e7f12fd7cda754da5fe \
+    ML_RUNTIME_GBN=64692867
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \

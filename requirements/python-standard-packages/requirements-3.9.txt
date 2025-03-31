@@ -418,9 +418,9 @@ importlib-resources==5.12.0 \
     --hash=sha256:4be82589bf5c1d7999aedf2a45159d10cb3ca4f19b2271f8792bc8e6da7b22f6 \
     --hash=sha256:7b1deeebbf351c7578e09bf2f63fa2ce8b5ffec296e0d349139d43cca061a81a
     # via matplotlib
-impyla==0.18.0 \
-    --hash=sha256:3c80dc32d0fd0b7311995d5903844ff32745647b9345e54c92e80d47df163e13 \
-    --hash=sha256:d5e301de056d9e53caa75ba0a6e5108b6078d87d10052824d2eb7a37bdcc52a4
+impyla==0.21.0 \
+    --hash=sha256:5368f726fab3a609f2803b4963cc52bc2a0002f9243751852f90ee241dd64f60 \
+    --hash=sha256:55d8c14454d9f18452ea9b4b0e81dca04d9fa0b9a9759b99bed9d6197d1f8292
     # via -r runtime/engine/requirements/python-standard-packages/requirements-3.9.in
 jmespath==1.0.1 \
     --hash=sha256:02e2e4cc71b5bcab88332eebf907519190dd9e6e82107fa7f83b1003a6252980 \
