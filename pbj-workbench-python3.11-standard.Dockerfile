@@ -68,7 +68,7 @@ RUN apt-get update && apt-get dist-upgrade -y && \
 
 WORKDIR /build
 
-ENV PYTHON3_VERSION=3.11.11 \
+ENV PYTHON3_VERSION=3.11.12 \
     ML_RUNTIME_KERNEL="Python 3.11"
 
 RUN \
@@ -77,13 +77,14 @@ RUN \
     libsqlite3-0 \
     media-types \
     libpq-dev \
+    libffi-dev \
     libkrb5-dev && \
     apt-get autoremove -y --purge && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY etc/pip.conf /etc/pip.conf
 
-ADD build/python-prebuilt-3.11.11-20241205-pkg.tar.gz /usr/local
+ADD build/python-prebuilt-3.11.12-20250507-pkg.tar.gz /usr/local
 COPY requirements/python-standard-packages/requirements-3.11.txt /build/requirements.txt
 
 RUN \
@@ -98,7 +99,8 @@ RUN \
 ENV ML_RUNTIME_EDITOR="PBJ Workbench" \
     ML_RUNTIME_EDITION="Standard" \
     ML_RUNTIME_JUPYTER_KERNEL_GATEWAY_CMD="jupyter kernelgateway --config=/home/cdsw/.jupyter/jupyter_kernel_gateway_config.py" \
-    JUPYTERLAB_WORKSPACES_DIR=/tmp
+    JUPYTERLAB_WORKSPACES_DIR=/tmp \
+    IPYTHONDIR=/tmp/.ipython
 
 COPY requirements/pbj-workbench-base/requirements-3.11.txt /build/requirements.txt
 
@@ -122,11 +124,11 @@ RUN \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2025.01.3-b8 \
-    ML_RUNTIME_SHORT_VERSION=2025.01 \
-    ML_RUNTIME_MAINTENANCE_VERSION=3 \
-    ML_RUNTIME_GIT_HASH=25ac39f9f3d2cc7da6435e7f12fd7cda754da5fe \
-    ML_RUNTIME_GBN=64692867
+    ML_RUNTIME_FULL_VERSION=2025.06.1-b5 \
+    ML_RUNTIME_SHORT_VERSION=2025.06 \
+    ML_RUNTIME_MAINTENANCE_VERSION=1 \
+    ML_RUNTIME_GIT_HASH=d52dc8729f52a29eb032dc37ffcf295127e190a2 \
+    ML_RUNTIME_GBN=68153373
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \

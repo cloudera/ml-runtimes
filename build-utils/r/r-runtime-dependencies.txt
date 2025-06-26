@@ -5,13 +5,10 @@ fonts-texgyre
 g++
 gfortran
 gsfonts
-libblas-dev
+libpcre2*
 libbz2-1.0
 libcurl4
-libopenblas-dev
 libicu74
-liblapack-dev
-libpcre2*
 libjpeg-turbo*
 libpangocairo-1.0-0
 libpng16*
@@ -28,6 +25,11 @@ zlib1g
 unixodbc
 unixodbc-dev
 
+
+libopenblas-dev
+libopenblas64-dev
+liblapack-dev
+liblapack64-dev
 
 libgit2-dev
 
@@ -48,5 +50,9 @@ libpng-dev
 libjpeg-dev
 libssl-dev
 libtiff-dev
+libudunits2-dev
+libgmp-dev
+libmpfr-dev
+libgdal-dev 
 pandoc
 libicu-dev

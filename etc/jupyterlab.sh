@@ -10,7 +10,10 @@ export JUPYTER_KERNEL_TIMEOUT_SECONDS=${JUPYTER_KERNEL_TIMEOUT_SECONDS:-$DEFAULT
 # jupyter terminals) *and* the UI is not open in a live browser window.
 export JUPYTER_SERVER_TIMEOUT_SECONDS=${JUPYTER_SERVER_TIMEOUT_SECONDS:-300}
 
-export JUPYTER_LOG_LEVEL=${JUPYTER_LOG_LEVEL:-ERROR}
+# Empty Jupyter log level results in inheriting from CML, or fall back to 'ERROR'
+# This is in line with other runtimes' log level logic.
+export JUPYTER_LOG_LEVEL=${JUPYTER_LOG_LEVEL:-${LOG_LEVEL:-ERROR}}
+
 CML_JUPYTER_ENSURE_NATIVE_KERNEL=${CML_JUPYTER_ENSURE_NATIVE_KERNEL:-True}
 JUPYTERLAB_DIR=${JUPYTERLAB_DIR_OVERRIDE:-/usr/local}
 
@@ -33,6 +36,7 @@ DEFAULT_COPILOT_EMBEDDING_MODEL=`python /usr/local/bin/read_default_copilot_embe
     --MappingKernelManager.cull_interval=60 \
     --MappingKernelManager.cull_connected=True \
     --TerminalManager.cull_interval=60 \
+    --ServerApp.terminado_settings='{"shell_command": ["/bin/bash", "--login"]}' \
     --KernelSpecManager.ensure_native_kernel="${CML_JUPYTER_ENSURE_NATIVE_KERNEL}" \
     --ContentsManager.allow_hidden=True \
     --AiExtension.default_language_model="${DEFAULT_COPILOT_MODEL}" \
