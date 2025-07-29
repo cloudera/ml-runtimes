@@ -1,3 +1,9 @@
+# R runtime dependencies derived from
+# https://github.com/rocker-org/rocker-versioned/blob/master/r-ver/3.6.3.Dockerfile
+# with some additions for the R packages we ship
+#
+# To run R, you need only these dependencies
+# To build R, you need these *and* the r-build-dependencies.txt
 bash-completion
 ca-certificates
 file
@@ -5,54 +11,55 @@ fonts-texgyre
 g++
 gfortran
 gsfonts
-libpcre2*
+libblas-dev
 libbz2-1.0
 libcurl4
-libicu74
-libjpeg-turbo*
+# s/libicu63/libicu66. rocker uses older debian.
+libicu66
+# s/libjpeg62-turbo/libturbojpeg. rocker uses older debian.
+libturbojpeg
+libopenblas-dev
 libpangocairo-1.0-0
-libpng16*
+libpcre3
+libpng16-16
+# s/libreadline7/libreadline8. rocker uses older debian.
 libreadline8
-libtiff*
-liblzma*
+libtiff5
+liblzma5
 locales
-libxt6
 make
-tzdata
 unzip
 zip
 zlib1g
+# dependency to R's odbc package
 unixodbc
 unixodbc-dev
 
+# The following packages are build dependencies of R packages that we
+# want users to be able to install
 
-libopenblas-dev
-libopenblas64-dev
-liblapack-dev
-liblapack64-dev
-
+# build and runtime requirement for e.g. R gert package
 libgit2-dev
 
+# build and runtime requirement for e.g. R xml2 package
 libxml2
 libxml2-dev
 
+# build dependency for e.g. Rcurl
 libcurl4-openssl-dev
 
+# build dependency for e.g. RJava
+libpcre2-dev
 libpcre3-dev
 
+# build dependency so flextable can be installed and used in CML
 libfontconfig1-dev
 libcairo2-dev
 
+# build dependencies to support newer versions of the R package "devtools"
 libharfbuzz-dev
 libfribidi-dev
 libfreetype6-dev
 libpng-dev
+libtiff5-dev
 libjpeg-dev
-libssl-dev
-libtiff-dev
-libudunits2-dev
-libgmp-dev
-libmpfr-dev
-libgdal-dev 
-pandoc
-libicu-dev
