@@ -184,6 +184,7 @@ bleach[css]==6.2.0 \
     --hash=sha256:123e894118b8a599fd80d3ec1a6d4cc7ce4e5882b1317a7e1ba69b56e95f991f
     # via
     #   -c /engine/runtime/engine/requirements/pbj-workbench-base/requirements-3.13.txt
+    #   bleach
     #   nbconvert
 boto3==1.34.162 \
     --hash=sha256:873f8f5d2f6f85f1018cbb0535b03cceddc7b655b61f66a0a56995238804f41f \
@@ -830,9 +831,9 @@ jupyter-client==7.4.9 \
     #   ipykernel
     #   jupyter-server
     #   nbclient
-jupyter-core==5.7.2 \
-    --hash=sha256:4f7315d2f6b4bcf2e3e7cb6e46772eba760ae459cd1f59d29eb57b0a01bd7409 \
-    --hash=sha256:aa5f8d32bbf6b431ac830496da7392035d6f61b4f54872f15c4bd2a9c3f536d9
+jupyter-core==5.8.1 \
+    --hash=sha256:0a5f9706f70e64786b75acba995988915ebd4601c8a52e534a40b51c95f59941 \
+    --hash=sha256:c28d268fc90fb53f1338ded2eb410704c5449a358406e8a948b75706e24863d0
     # via
     #   -c /engine/runtime/engine/requirements/pbj-workbench-base/requirements-3.13.txt
     #   ipykernel
@@ -884,9 +885,9 @@ jupyterlab==4.2.4 \
     #   -r runtime/engine/requirements/pbj-jupyterlab/requirements-3.13.in
     #   jupyter-ai
     #   jupyterlab-lsp
-jupyterlab-git==0.50.0 \
-    --hash=sha256:00e399c2f828acc86ef58f2098c4d9bb2c0b52d37791dd5a56773a133e0c3da5 \
-    --hash=sha256:09859546d390134ebb918a965c2c3fe2605feafe327cf61615be7dd90b5bdfbb
+jupyterlab-git==0.51.1 \
+    --hash=sha256:928e9197bdcb51a61b021a9f87f849f1c356f114ff2a7bb5754dbdd0af2f741f \
+    --hash=sha256:b7bce89795d5ce88c8aaf0d79eb7a93d0535622f9be6b019ca9ae4d3b9a9ca6a
     # via -r runtime/engine/requirements/pbj-jupyterlab/requirements-3.13.in
 jupyterlab-lsp==5.1.0 \
     --hash=sha256:290f473b001c7ebe1edfe391a545f50bc4aefe89d4a64db4f17e8de301db3a37 \

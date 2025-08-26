@@ -8,7 +8,7 @@ gsfonts
 libpcre2*
 libbz2-1.0
 libcurl4
-libicu74
+"libicu[0-9][0-9]"
 libjpeg-turbo*
 libpangocairo-1.0-0
 libpng16*

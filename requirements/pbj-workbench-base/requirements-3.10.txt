@@ -346,9 +346,9 @@ jupyter-client==7.4.9 \
     #   nbclassic
     #   nbclient
     #   notebook
-jupyter-core==5.3.0 \
-    --hash=sha256:6db75be0c83edbf1b7c9f91ec266a9a24ef945da630f3120e1a0046dc13713fc \
-    --hash=sha256:d4201af84559bc8c70cead287e1ab94aeef3c512848dde077b7684b54d67730d
+jupyter-core==5.8.1 \
+    --hash=sha256:0a5f9706f70e64786b75acba995988915ebd4601c8a52e534a40b51c95f59941 \
+    --hash=sha256:c28d268fc90fb53f1338ded2eb410704c5449a358406e8a948b75706e24863d0
     # via
     #   ipykernel
     #   jupyter-client

@@ -6,7 +6,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PATH=/home/cdsw/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin \
     SHELL=/bin/bash \
     HADOOP_ROOT_LOGGER=WARN,console
-    
+
+
 RUN apt-get update && apt-get dist-upgrade -y && \
   apt-get install -y --no-install-recommends \
   locales \
@@ -22,7 +23,6 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   gzip \
   curl \
   nano \
-  emacs-nox \
   wget \
   less \
   ca-certificates ca-certificates-java \
@@ -41,7 +41,6 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   libgl-dev \
   libjpeg-dev \
   libpng-dev \
-  ffmpeg \
   fonts-roboto \
   fonts-dejavu && \
   apt-get clean && \
@@ -65,6 +64,14 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   ln -s /etc/ssl/certs/ca-certificates.crt /etc/pki/tls/certs/ca-bundle.crt
 
 
+
+RUN apt-get update && apt-get dist-upgrade -y && \
+  apt-get install -y --no-install-recommends \
+  ffmpeg \
+  emacs-nox && \
+  apt-get clean && \
+  apt-get autoremove --purge && \
+  rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
 
@@ -154,11 +161,11 @@ RUN \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2025.06.1-b5 \
-    ML_RUNTIME_SHORT_VERSION=2025.06 \
+    ML_RUNTIME_FULL_VERSION=9999.12.1-70047513 \
+    ML_RUNTIME_SHORT_VERSION=9999.12 \
     ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=d52dc8729f52a29eb032dc37ffcf295127e190a2 \
-    ML_RUNTIME_GBN=68153373
+    ML_RUNTIME_GIT_HASH=1f8fa1dd1da8a70ee91ad4a438f11ff143856266 \
+    ML_RUNTIME_GBN=70047513
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
