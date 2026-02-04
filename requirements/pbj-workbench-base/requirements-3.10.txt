@@ -953,9 +953,9 @@ uri-template==1.2.0 \
     --hash=sha256:934e4d09d108b70eb8a24410af8615294d09d279ce0e7cbcdaef1bd21f932b06 \
     --hash=sha256:f1699c77b73b925cf4937eae31ab282a86dc885c333f2e942513f08f691fc7db
     # via jsonschema
-urllib3==2.2.2 \
-    --hash=sha256:a448b2f64d686155468037e1ace9f2d2199776e17f0a46610480d311f73e3472 \
-    --hash=sha256:dd505485549a7a552833da5e6063639d0d177c04f23bc3864e41e5dc5f612168
+urllib3==2.6.0 \
+    --hash=sha256:c90f7a39f716c572c4e3e58509581ebd83f9b59cced005b7db7ad2d22b0db99f \
+    --hash=sha256:cb9bcef5a4b345d5da5d145dc3e30834f58e8018828cbc724d30b4cb7d4d49f1
     # via
     #   -c /engine/runtime/engine/requirements/python-standard-packages/requirements-3.10.txt
     #   requests

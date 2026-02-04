@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera. All Rights Reserved.
+# Copyright 2026 Cloudera. All Rights Reserved.
 FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=C.UTF-8 LANGUAGE=en_US.UTF-8 \
@@ -42,7 +42,8 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   libjpeg-dev \
   libpng-dev \
   fonts-roboto \
-  fonts-dejavu && \
+  fonts-dejavu \
+  tzdata && \
   apt-get clean && \
   apt-get autoremove --purge && \
   rm -rf /var/lib/apt/lists/* && \
@@ -75,7 +76,7 @@ RUN apt-get update && apt-get dist-upgrade -y && \
 
 WORKDIR /build
 
-ENV PYTHON3_VERSION=3.12.10 \
+ENV PYTHON3_VERSION=3.12.12 \
     ML_RUNTIME_KERNEL="Python 3.12"
 
 RUN \
@@ -91,7 +92,7 @@ RUN \
 
 COPY etc/pip.conf /etc/pip.conf
 
-ADD build/python-prebuilt-3.12.10-20250507-pkg.tar.gz /usr/local
+ADD build/python-prebuilt-3.12.12-20251124-pkg.tar.gz /usr/local
 COPY requirements/python-standard-packages/requirements-3.12.txt /build/requirements.txt
 
 RUN \
@@ -106,12 +107,12 @@ RUN \
 ENV ML_RUNTIME_KERNEL="R 4.5" \
     ML_RUNTIME_EDITION="Standard" \
     ML_RUNTIME_DESCRIPTION="Standard edition R runtime provided by Cloudera" \
-    R_VERSION=4.5.0
+    R_VERSION=4.5.2
 
 COPY build-utils/r/r-runtime-dependencies.txt /build/
 COPY r/python*.deb /tmp/
 
-ADD build/r-prebuilt-4.5.0-20250530-pkg.tar.gz /usr/local
+ADD build/r-prebuilt-4.5.2-20251124-pkg.tar.gz /usr/local
 
 RUN \
     dpkg -i /tmp/python*.deb && \
@@ -149,7 +150,7 @@ RUN pip3 install --no-cache-dir --no-warn-script-location -r /build/requirements
     rm -rf /build
 
 ENV ML_RUNTIME_JUPYTER_KERNEL_NAME="r4.5" \
-    ML_RUNTIME_DESCRIPTION="PBJ Workbench R runtime provided by Cloudera" \
+    ML_RUNTIME_DESCRIPTION="${ML_RUNTIME_EDITOR} R runtime provided by Cloudera" \
     CML_JUPYTER_ENSURE_NATIVE_KERNEL="False"
 
 
@@ -166,14 +167,13 @@ RUN \
 
 
 
-
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=9999.12.1-70047513 \
-    ML_RUNTIME_SHORT_VERSION=9999.12 \
+    ML_RUNTIME_FULL_VERSION=2026.01.1-b6 \
+    ML_RUNTIME_SHORT_VERSION=2026.01 \
     ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=1f8fa1dd1da8a70ee91ad4a438f11ff143856266 \
-    ML_RUNTIME_GBN=70047513
+    ML_RUNTIME_GIT_HASH=6409ec7123de70a911751ad99e578040051be2df \
+    ML_RUNTIME_GBN=74219765
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \

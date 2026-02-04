@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera. All Rights Reserved.
+# Copyright 2026 Cloudera. All Rights Reserved.
 FROM nvidia/cuda:12.5.1-devel-ubuntu24.04
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=C.UTF-8 LANGUAGE=en_US.UTF-8 \
@@ -42,7 +42,8 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   libjpeg-dev \
   libpng-dev \
   fonts-roboto \
-  fonts-dejavu && \
+  fonts-dejavu \
+  tzdata && \
   apt-get clean && \
   apt-get autoremove --purge && \
   rm -rf /var/lib/apt/lists/* && \
@@ -75,7 +76,7 @@ RUN apt-get update && apt-get dist-upgrade -y && \
 
 WORKDIR /build
 
-ENV PYTHON3_VERSION=3.10.17 \
+ENV PYTHON3_VERSION=3.10.19 \
     ML_RUNTIME_KERNEL="Python 3.10"
 
 RUN \
@@ -91,7 +92,7 @@ RUN \
 
 COPY etc/pip.conf /etc/pip.conf
 
-ADD build/python-prebuilt-3.10.17-20250507-pkg.tar.gz /usr/local
+ADD build/python-prebuilt-3.10.19-20251124-pkg.tar.gz /usr/local
 COPY requirements/python-standard-packages/requirements-3.10.txt /build/requirements.txt
 
 RUN \
@@ -132,14 +133,13 @@ ENV ML_RUNTIME_EDITION="Nvidia GPU" \
 
 
 
-
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=9999.12.1-70047513 \
-    ML_RUNTIME_SHORT_VERSION=9999.12 \
+    ML_RUNTIME_FULL_VERSION=2026.01.1-b6 \
+    ML_RUNTIME_SHORT_VERSION=2026.01 \
     ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=1f8fa1dd1da8a70ee91ad4a438f11ff143856266 \
-    ML_RUNTIME_GBN=70047513
+    ML_RUNTIME_GIT_HASH=6409ec7123de70a911751ad99e578040051be2df \
+    ML_RUNTIME_GBN=74219765
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \

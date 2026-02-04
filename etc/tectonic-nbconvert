@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Offline-first wrapper for nbconvert LaTeX rendering
+# - First try offline (only cached packages) for speed and minimal network
+# - If cache-miss occurs, fall back to online to fetch needed packages
+set -euo pipefail
+
+input_file="${1:-}"
+if [[ -z "${input_file}" ]]; then
+  echo "usage: tectonic-nbconvert <input.tex>" >&2
+  exit 2
+fi
+shift
+
+# Try offline-first
+if /usr/local/bin/tectonic "${input_file}" \
+  --keep-logs \
+  --outdir . \
+  --reruns 1 \
+  --only-cached \
+  "$@"; then
+  exit 0
+fi
+
+# Fallback online if offline fails
+/usr/local/bin/tectonic "${input_file}" \
+  --keep-logs \
+  --outdir . \
+  --reruns 1 \
+  "$@"
+
+

@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera. All Rights Reserved.
+# Copyright 2026 Cloudera. All Rights Reserved.
 FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=C.UTF-8 LANGUAGE=en_US.UTF-8 \
@@ -42,7 +42,8 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   libjpeg-dev \
   libpng-dev \
   fonts-roboto \
-  fonts-dejavu && \
+  fonts-dejavu \
+  tzdata && \
   apt-get clean && \
   apt-get autoremove --purge && \
   rm -rf /var/lib/apt/lists/* && \
@@ -75,7 +76,7 @@ RUN apt-get update && apt-get dist-upgrade -y && \
 
 WORKDIR /build
 
-ENV PYTHON3_VERSION=3.11.12 \
+ENV PYTHON3_VERSION=3.11.14 \
     ML_RUNTIME_KERNEL="Python 3.11"
 
 RUN \
@@ -91,7 +92,7 @@ RUN \
 
 COPY etc/pip.conf /etc/pip.conf
 
-ADD build/python-prebuilt-3.11.12-20250507-pkg.tar.gz /usr/local
+ADD build/python-prebuilt-3.11.14-20251124-pkg.tar.gz /usr/local
 COPY requirements/python-standard-packages/requirements-3.11.txt /build/requirements.txt
 
 RUN \
@@ -132,13 +133,30 @@ ENV ML_RUNTIME_EDITOR="JupyterLab" \
 
 COPY requirements/pbj-jupyterlab/requirements-3.11.txt /build/requirements.txt
 COPY etc/jupyterlab.sh /usr/local/bin/jupyterlab.sh
+COPY etc/jupyter_lab_config.py /usr/local/etc/jupyter_lab_config.py
+COPY etc/tectonic-nbconvert /usr/local/bin/tectonic-nbconvert
 COPY etc/read_default_copilot_model.py /usr/local/bin/read_default_copilot_model.py
 COPY etc/read_default_copilot_embedding_model.py /usr/local/bin/read_default_copilot_embedding_model.py
 
 RUN \
-  curl -s -o /tmp/nodejs.tar.xz https://nodejs.org/download/release/v20.8.1/node-v20.8.1-linux-x64.tar.xz && \
+  curl -fsSL --retry 3 --retry-delay 2 -o /tmp/nodejs.tar.xz https://nodejs.org/download/release/v20.8.1/node-v20.8.1-linux-x64.tar.xz && \
   tar xJ -f /tmp/nodejs.tar.xz -C /usr/local --strip-components 1 && \
   npm install -g npm@10.5.2 && \
+  cd /tmp && \
+  PANDOC_VERSION=3.1.3 && \
+  PANDOC_TARBALL="pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" && \
+  curl -fsSL --retry 3 --retry-delay 2 -o pandoc.tar.gz "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/${PANDOC_TARBALL}" && \
+  tar xzf pandoc.tar.gz && \
+  install -m 0755 "/tmp/pandoc-${PANDOC_VERSION}/bin/pandoc" /usr/local/bin/pandoc && \
+  apt-get update && apt-get install -y --no-install-recommends texlive-binaries && \
+  TECTONIC_VERSION=0.13.1 && \
+  TECTONIC_TARBALL="tectonic-${TECTONIC_VERSION}-x86_64-unknown-linux-musl.tar.gz" && \
+  curl -fsSL --retry 3 --retry-delay 2 -o tectonic.tar.gz "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%40${TECTONIC_VERSION}/${TECTONIC_TARBALL}" && \
+  tar xzf tectonic.tar.gz && \
+  install -m 0755 /tmp/tectonic /usr/local/bin/tectonic && \
+  rm -f /tmp/tectonic /tmp/tectonic.tar.gz && \
+  chmod +x /usr/local/bin/tectonic-nbconvert && \
+  cd /usr/local && \
   ln -sf /usr/local/bin/jupyterlab.sh /usr/local/bin/ml-runtime-editor && \
   chmod +x /usr/local/bin/jupyterlab.sh && \
   pip install --no-cache-dir -r /build/requirements.txt && \
@@ -158,14 +176,13 @@ RUN \
 
 
 
-
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=9999.12.1-70047513 \
-    ML_RUNTIME_SHORT_VERSION=9999.12 \
+    ML_RUNTIME_FULL_VERSION=2026.01.1-b6 \
+    ML_RUNTIME_SHORT_VERSION=2026.01 \
     ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=1f8fa1dd1da8a70ee91ad4a438f11ff143856266 \
-    ML_RUNTIME_GBN=70047513
+    ML_RUNTIME_GIT_HASH=6409ec7123de70a911751ad99e578040051be2df \
+    ML_RUNTIME_GBN=74219765
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \

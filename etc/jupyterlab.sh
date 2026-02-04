@@ -41,6 +41,7 @@ DEFAULT_COPILOT_EMBEDDING_MODEL=`python /usr/local/bin/read_default_copilot_embe
     --ContentsManager.allow_hidden=True \
     --AiExtension.default_language_model="${DEFAULT_COPILOT_MODEL}" \
     --AiExtension.default_embeddings_model="${DEFAULT_COPILOT_EMBEDDING_MODEL}" \
+    --config=/usr/local/etc/jupyter_lab_config.py \
     "$@"
 
 # If control reaches here, jupyterlab exited with return code 0.
