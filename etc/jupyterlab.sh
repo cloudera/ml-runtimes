@@ -15,7 +15,15 @@ export JUPYTER_SERVER_TIMEOUT_SECONDS=${JUPYTER_SERVER_TIMEOUT_SECONDS:-300}
 export JUPYTER_LOG_LEVEL=${JUPYTER_LOG_LEVEL:-${LOG_LEVEL:-ERROR}}
 
 CML_JUPYTER_ENSURE_NATIVE_KERNEL=${CML_JUPYTER_ENSURE_NATIVE_KERNEL:-True}
-JUPYTERLAB_DIR=${JUPYTERLAB_DIR_OVERRIDE:-/usr/local}
+# Chainguard Runtimes install binaries in /usr/sbin/ by default.
+if  [ "$ML_RUNTIME_METADATA_VERSION" = "3" ]; then
+    JUPYTERLAB_DIR=/usr/sbin
+else
+    JUPYTERLAB_DIR=/usr/local/bin
+fi
+
+
+JUPYTERLAB_DIR=${JUPYTERLAB_DIR_OVERRIDE:-$JUPYTERLAB_DIR}
 
 DEFAULT_COPILOT_MODEL=`python /usr/local/bin/read_default_copilot_model.py`
 DEFAULT_COPILOT_EMBEDDING_MODEL=`python /usr/local/bin/read_default_copilot_embedding_model.py`
@@ -23,7 +31,7 @@ DEFAULT_COPILOT_EMBEDDING_MODEL=`python /usr/local/bin/read_default_copilot_embe
 # cull_interval below means how often to check for inactivity (to apply timeout rules)
 # nonzero return code indicates jupyterlab internal failure.
 # `bash -e` relays this return code to the parent process.
-"${JUPYTERLAB_DIR}"/bin/jupyter lab \
+"${JUPYTERLAB_DIR}"/jupyter lab \
     --no-browser \
     --ip=127.0.0.1 \
     --port="${CDSW_APP_PORT}" \

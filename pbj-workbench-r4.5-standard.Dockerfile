@@ -30,6 +30,8 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   libbz2-dev \
   liblzma-dev \
   libssl-dev \
+  unixodbc \
+  unixodbc-dev \
   libsasl2-dev \
   libsasl2-2 \
   libsasl2-modules-gssapi-mit \
@@ -76,7 +78,7 @@ RUN apt-get update && apt-get dist-upgrade -y && \
 
 WORKDIR /build
 
-ENV PYTHON3_VERSION=3.12.12 \
+ENV PYTHON3_VERSION=3.12.13 \
     ML_RUNTIME_KERNEL="Python 3.12"
 
 RUN \
@@ -92,7 +94,7 @@ RUN \
 
 COPY etc/pip.conf /etc/pip.conf
 
-ADD build/python-prebuilt-3.12.12-20251124-pkg.tar.gz /usr/local
+ADD build/python-prebuilt-3.12.13-20260309-pkg.tar.gz /usr/local
 COPY requirements/python-standard-packages/requirements-3.12.txt /build/requirements.txt
 
 RUN \
@@ -169,11 +171,11 @@ RUN \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2026.01.1-b6 \
-    ML_RUNTIME_SHORT_VERSION=2026.01 \
+    ML_RUNTIME_FULL_VERSION=2026.04.1-b7 \
+    ML_RUNTIME_SHORT_VERSION=2026.04 \
     ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=6409ec7123de70a911751ad99e578040051be2df \
-    ML_RUNTIME_GBN=74219765
+    ML_RUNTIME_GIT_HASH=2130ac733f0ca3f9fae72e782f76b033a97ee6ba \
+    ML_RUNTIME_GBN=77073382
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \

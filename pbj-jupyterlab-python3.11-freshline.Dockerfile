@@ -30,6 +30,8 @@ RUN apt-get update && apt-get dist-upgrade -y && \
   libbz2-dev \
   liblzma-dev \
   libssl-dev \
+  unixodbc \
+  unixodbc-dev \
   libsasl2-dev \
   libsasl2-2 \
   libsasl2-modules-gssapi-mit \
@@ -68,7 +70,7 @@ RUN apt-get update && apt-get dist-upgrade -y && \
 
 WORKDIR /build
 
-ENV PYTHON3_VERSION=3.11.14 \
+ENV PYTHON3_VERSION=3.11.15 \
     ML_RUNTIME_KERNEL="Python 3.11"
 
 RUN \
@@ -84,7 +86,7 @@ RUN \
 
 COPY etc/pip.conf /etc/pip.conf
 
-ADD build/python-prebuilt-3.11.14-20251124-freshline-pkg.tar.gz /usr/local
+ADD build/python-prebuilt-3.11.15-20260309-freshline-pkg.tar.gz /usr/local
 COPY requirements/python-standard-packages/requirements-3.11.txt /build/requirements.txt
 
 RUN \
@@ -115,8 +117,6 @@ ENV ML_RUNTIME_JUPYTER_KERNEL_NAME="python3" \
 RUN \
   cd /root && \
   rm -rf .cache .ipython .ivy2 .sbt .npm .yarn && \
-  apt-get autoremove -y --purge && \
-  apt-get clean && rm -rf /var/lib/apt/lists/* && \
   rm -rf /tmp/*
 
 ENV ML_RUNTIME_EDITOR="JupyterLab" \
@@ -140,7 +140,10 @@ RUN \
   curl -fsSL --retry 3 --retry-delay 2 -o pandoc.tar.gz "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/${PANDOC_TARBALL}" && \
   tar xzf pandoc.tar.gz && \
   install -m 0755 "/tmp/pandoc-${PANDOC_VERSION}/bin/pandoc" /usr/local/bin/pandoc && \
-  apt-get update && apt-get install -y --no-install-recommends texlive-binaries && \
+  . /etc/os-release && \
+  if [ "$ID" = "ubuntu" ]; then \
+    apt-get update && apt-get install -y --no-install-recommends texlive-binaries; \
+  fi && \
   TECTONIC_VERSION=0.13.1 && \
   TECTONIC_TARBALL="tectonic-${TECTONIC_VERSION}-x86_64-unknown-linux-musl.tar.gz" && \
   curl -fsSL --retry 3 --retry-delay 2 -o tectonic.tar.gz "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%40${TECTONIC_VERSION}/${TECTONIC_TARBALL}" && \
@@ -162,19 +165,21 @@ RUN \
   jupyter labextension disable "@jupyterlab/apputils-extension:announcements" && \
   cd /root && \
   rm -rf .cache .ipython .ivy2 .sbt .npm .yarn && \
-  apt-get autoremove -y --purge && \
-  apt-get clean && rm -rf /var/lib/apt/lists/* && \
+  if [ "$ID" = "ubuntu" ]; then \
+    apt-get autoremove -y --purge && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*; \
+    fi && \
   rm -rf /tmp/*
 
 
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2026.01.1-b6 \
-    ML_RUNTIME_SHORT_VERSION=2026.01 \
+    ML_RUNTIME_FULL_VERSION=2026.04.1-b7 \
+    ML_RUNTIME_SHORT_VERSION=2026.04 \
     ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=6409ec7123de70a911751ad99e578040051be2df \
-    ML_RUNTIME_GBN=74219765
+    ML_RUNTIME_GIT_HASH=2130ac733f0ca3f9fae72e782f76b033a97ee6ba \
+    ML_RUNTIME_GBN=77073382
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
