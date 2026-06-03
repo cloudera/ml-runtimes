@@ -1,6 +1,11 @@
 # Copyright 2026 Cloudera. All Rights Reserved.
-FROM hardened/cloudera-python-jdk:py314-jdk17
-
+FROM cgr.dev/chainguard/wolfi-base
+RUN apk update && apk add --no-cache bash shadow openjdk-17 python-3.14 py3.14-pip
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+ENV PATH="$JAVA_HOME/bin:$PATH"
+ENV LANG=en_US.UTF-8
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+RUN ln -s $JAVA_HOME /usr/lib/jvm/default-jvm
 USER root
 ENV HOME=/root
 
