@@ -1,11 +1,6 @@
 # Copyright 2026 Cloudera. All Rights Reserved.
-FROM cgr.dev/chainguard/wolfi-base
-RUN apk update && apk add --no-cache bash shadow openjdk-17 python-3.14 py3.14-pip
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
-ENV PATH="$JAVA_HOME/bin:$PATH"
-ENV LANG=en_US.UTF-8
-ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
-RUN ln -s $JAVA_HOME /usr/lib/jvm/default-jvm
+FROM hardened/cloudera-python-jdk:py314-jdk17
+
 USER root
 ENV HOME=/root
 
@@ -64,6 +59,7 @@ RUN apk update && apk add --no-cache \
     unixodbc-dev \
     cyrus-sasl-dev \
     cyrus-sasl \
+    cyrus-sasl-heimdal \
     zeromq-dev \
     cpio \
     cmake \
@@ -164,11 +160,11 @@ RUN \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=3 \ 
-    ML_RUNTIME_FULL_VERSION=2026.04.1-b7 \
+    ML_RUNTIME_FULL_VERSION=2026.04.2-b16 \
     ML_RUNTIME_SHORT_VERSION=2026.04 \
-    ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=2130ac733f0ca3f9fae72e782f76b033a97ee6ba \
-    ML_RUNTIME_GBN=77073382
+    ML_RUNTIME_MAINTENANCE_VERSION=2 \
+    ML_RUNTIME_GIT_HASH=39067be37a7f846368777330082e234b9cb68857 \
+    ML_RUNTIME_GBN=81154741
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
