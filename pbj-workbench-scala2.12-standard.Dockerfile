@@ -132,7 +132,7 @@ RUN \
   echo "deb [signed-by=/etc/apt/trusted.gpg.d/scalasbt-release.gpg] https://repo.scala-sbt.org/scalasbt/debian all main" >/etc/apt/sources.list.d/sbt.list && \
   curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | gpg --dearmor >/etc/apt/trusted.gpg.d/scalasbt-release.gpg && \
   apt-get update && \
-  apt-get install --no-install-recommends -y sbt && \
+  apt-get install --no-install-recommends -y sbt=1.12.11 && \
   apt-get install --no-install-recommends -y openjdk-8-jdk-headless && \
   cd /tmp/chunker && \
   sbt assembly && \
@@ -167,11 +167,11 @@ RUN \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2026.04.1-b7 \
+    ML_RUNTIME_FULL_VERSION=2026.04.2-b16 \
     ML_RUNTIME_SHORT_VERSION=2026.04 \
-    ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=2130ac733f0ca3f9fae72e782f76b033a97ee6ba \
-    ML_RUNTIME_GBN=77073382
+    ML_RUNTIME_MAINTENANCE_VERSION=2 \
+    ML_RUNTIME_GIT_HASH=39067be37a7f846368777330082e234b9cb68857 \
+    ML_RUNTIME_GBN=81154741
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
