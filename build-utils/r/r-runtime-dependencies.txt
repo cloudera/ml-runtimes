@@ -40,6 +40,8 @@ libcurl4-openssl-dev
 
 libpcre3-dev
 
+libuv1-dev
+
 libfontconfig1-dev
 libcairo2-dev
 

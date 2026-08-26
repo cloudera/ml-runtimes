@@ -1,5 +1,14 @@
 # Copyright 2026 Cloudera. All Rights Reserved.
-FROM hardened/cloudera-python-jdk:py311-jdk17
+FROM cgr.dev/chainguard/wolfi-base
+
+RUN apk update && apk add --no-cache bash shadow openjdk-17 python-3.11 py3.11-pip
+
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+ENV PATH="$JAVA_HOME/bin:$PATH"
+ENV LANG=en_US.UTF-8
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+
+RUN ln -s $JAVA_HOME /usr/lib/jvm/default-jvm
 
 USER root
 ENV HOME=/root
@@ -27,16 +36,29 @@ WORKDIR /
 ENV TERM=xterm
 
 RUN apk update && apk add --no-cache \
+    binutils \
     gcc \
+    glibc-dev \
     glibc-locales \
+    gmp \
     gnupg \
+    isl \
+    libatomic \
+    libstdc++-dev \
+    libgomp \
+    libquadmath \
+    linux-headers \
+    mpc \
+    mpfr \
+    pkgconf \
+    posix-cc-wrappers \
     krb5 \
     krb5-dev \
     xz \
     git \
     git-lfs \
-    openssh-client=10.2_p1-r7 \
-    openssh=10.2_p1-r7 \
+    openssh-client \
+    openssh \
     zip \
     unzip \
     gzip \
@@ -48,13 +70,7 @@ RUN apk update && apk add --no-cache \
     zlib-dev \
     bzip2-dev \
     xz-dev \
-    openssh-keygen=10.2_p1-r7 \
-    openssh-server=10.2_p1-r7 \
-    openssh-server-config=10.2_p1-r7 \
-    openssh-sftp-server=10.2_p1-r7 \
-    libcrypto3=3.6.1-r2 \
-    libssl3=3.6.1-r2 \
-    openssl-dev=3.6.1-r3 \
+    openssl-dev \
     unixodbc \
     unixodbc-dev \
     cyrus-sasl-dev \
@@ -70,6 +86,7 @@ RUN apk update && apk add --no-cache \
     libpng-dev \
     ttf-dejavu \
     tzdata \
+    libzstd1 \
     diffutils \
     findutils \
     procps \
@@ -114,12 +131,14 @@ RUN command -v python3.11 && \
     [ -e /usr/bin/python ] && \
     [ -e /usr/bin/pip ]
 
+RUN apk add --no-cache python-3.11-dev python-3.11-base-dev
+
 RUN ln -s /usr/sbin/python3 /usr/local/bin/python3
 
 
 COPY etc/pip.conf /etc/pip.conf
-COPY requirements/python-comcloud-chainguard-extras/requirements-3.11.txt /build/requirements_extras.txt
-COPY requirements/python-standard-packages/requirements-3.11.txt /build/requirements.txt
+COPY requirements/py311/python-comcloud-chainguard-extras-requirements.txt /build/requirements_extras.txt
+COPY requirements/py311/python-standard-packages-requirements.txt /build/requirements.txt
 
 
 RUN pip3 config set install.user false && \
@@ -141,7 +160,7 @@ ENV ML_RUNTIME_EDITOR="PBJ Workbench" \
     JUPYTERLAB_WORKSPACES_DIR=/tmp \
     IPYTHONDIR=/tmp/.ipython
 
-COPY requirements/pbj-workbench-base/requirements-3.11.txt /build/requirements.txt
+COPY requirements/py311/pbj-workbench-base-requirements.txt /build/requirements.txt
 
 COPY etc/cloudera.mplstyle /etc/cloudera.mplstyle
 
@@ -160,11 +179,11 @@ RUN \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=3 \ 
-    ML_RUNTIME_FULL_VERSION=2026.04.2-b16 \
-    ML_RUNTIME_SHORT_VERSION=2026.04 \
-    ML_RUNTIME_MAINTENANCE_VERSION=2 \
-    ML_RUNTIME_GIT_HASH=39067be37a7f846368777330082e234b9cb68857 \
-    ML_RUNTIME_GBN=81154741
+    ML_RUNTIME_FULL_VERSION=2026.08.1-b5 \
+    ML_RUNTIME_SHORT_VERSION=2026.08 \
+    ML_RUNTIME_MAINTENANCE_VERSION=1 \
+    ML_RUNTIME_GIT_HASH=f36d1ea370c0f6da7fee102265bfbd697c47694d \
+    ML_RUNTIME_GBN=81754395
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
