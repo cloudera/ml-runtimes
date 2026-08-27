@@ -95,7 +95,7 @@ RUN \
 COPY etc/pip.conf /etc/pip.conf
 
 ADD build/python-prebuilt-3.11.15-20260309-pkg.tar.gz /usr/local
-COPY requirements/py311/python-standard-packages-requirements.txt /build/requirements.txt
+COPY requirements/python-standard-packages/requirements-3.11.txt /build/requirements.txt
 
 RUN \
     ldconfig && \
@@ -112,7 +112,7 @@ ENV ML_RUNTIME_EDITOR="PBJ Workbench" \
     JUPYTERLAB_WORKSPACES_DIR=/tmp \
     IPYTHONDIR=/tmp/.ipython
 
-COPY requirements/py311/pbj-workbench-base-requirements.txt /build/requirements.txt
+COPY requirements/pbj-workbench-base/requirements-3.11.txt /build/requirements.txt
 
 COPY etc/cloudera.mplstyle /etc/cloudera.mplstyle
 
@@ -135,11 +135,11 @@ ENV ML_RUNTIME_EDITION="Nvidia GPU" \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=2 \ 
-    ML_RUNTIME_FULL_VERSION=2026.08.1-b5 \
-    ML_RUNTIME_SHORT_VERSION=2026.08 \
-    ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=f36d1ea370c0f6da7fee102265bfbd697c47694d \
-    ML_RUNTIME_GBN=81754395
+    ML_RUNTIME_FULL_VERSION=2026.04.2-b16 \
+    ML_RUNTIME_SHORT_VERSION=2026.04 \
+    ML_RUNTIME_MAINTENANCE_VERSION=2 \
+    ML_RUNTIME_GIT_HASH=39067be37a7f846368777330082e234b9cb68857 \
+    ML_RUNTIME_GBN=81154741
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
