@@ -1,13 +1,10 @@
 # Copyright 2026 Cloudera. All Rights Reserved.
 FROM cgr.dev/chainguard/wolfi-base
-
 RUN apk update && apk add --no-cache bash shadow openjdk-17 python-3.11 py3.11-pip
-
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 ENV PATH="$JAVA_HOME/bin:$PATH"
 ENV LANG=en_US.UTF-8
 ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
-
 RUN ln -s $JAVA_HOME /usr/lib/jvm/default-jvm
 
 USER root
@@ -231,11 +228,11 @@ RUN \
 
 ENV \
     ML_RUNTIME_METADATA_VERSION=3 \ 
-    ML_RUNTIME_FULL_VERSION=2026.08.1-b5 \
+    ML_RUNTIME_FULL_VERSION=2026.08.2-b7 \
     ML_RUNTIME_SHORT_VERSION=2026.08 \
-    ML_RUNTIME_MAINTENANCE_VERSION=1 \
-    ML_RUNTIME_GIT_HASH=f36d1ea370c0f6da7fee102265bfbd697c47694d \
-    ML_RUNTIME_GBN=81754395
+    ML_RUNTIME_MAINTENANCE_VERSION=2 \
+    ML_RUNTIME_GIT_HASH=fface73d7bb1a1e8f78140477e22a8d87a5c4f90 \
+    ML_RUNTIME_GBN=84501785
 
 LABEL \
     com.cloudera.ml.runtime.runtime-metadata-version=$ML_RUNTIME_METADATA_VERSION \
